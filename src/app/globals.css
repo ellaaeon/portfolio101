@@ -1,0 +1,207 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root,
+  [data-theme="dark"] {
+    --bg: #050508;
+    --bg-elevated: #0c0c12;
+    --surface: rgba(18, 18, 28, 0.72);
+    --surface-solid: #12121c;
+    --border: rgba(255, 255, 255, 0.08);
+    --text: #f4f4f5;
+    --text-muted: #94a3b8;
+    --accent: #6366f1;
+    --accent-glow: rgba(99, 102, 241, 0.35);
+    --bulb-glow: rgba(251, 191, 36, 0.5);
+    --shadow: rgba(0, 0, 0, 0.5);
+    --grid: rgba(99, 102, 241, 0.04);
+    --aurora-1: rgba(99, 102, 241, 0.15);
+    --aurora-2: rgba(168, 85, 247, 0.12);
+    --aurora-3: rgba(59, 130, 246, 0.1);
+  }
+
+  [data-theme="light"] {
+    --bg: #f8f9fc;
+    --bg-elevated: #ffffff;
+    --surface: rgba(255, 255, 255, 0.75);
+    --surface-solid: #ffffff;
+    --border: rgba(0, 0, 0, 0.08);
+    --text: #0f172a;
+    --text-muted: #64748b;
+    --accent: #4f46e5;
+    --accent-glow: rgba(79, 70, 229, 0.2);
+    --bulb-glow: rgba(251, 191, 36, 0.8);
+    --shadow: rgba(0, 0, 0, 0.08);
+    --grid: rgba(79, 70, 229, 0.05);
+    --aurora-1: rgba(99, 102, 241, 0.08);
+    --aurora-2: rgba(168, 85, 247, 0.06);
+    --aurora-3: rgba(59, 130, 246, 0.05);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    @apply antialiased;
+    transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+      color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  ::selection {
+    background: var(--accent-glow);
+    color: var(--text);
+  }
+
+  @media (pointer: fine) {
+    body.custom-cursor,
+    body.custom-cursor * {
+      cursor: none !important;
+    }
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent;
+  }
+
+  [data-theme="light"] .text-gradient {
+    @apply from-indigo-600 via-violet-600 to-purple-600;
+  }
+
+  .glass {
+    background: var(--surface);
+    backdrop-filter: blur(20px) saturate(1.4);
+    border: 1px solid var(--border);
+  }
+
+  .glow-accent {
+    box-shadow: 0 0 60px var(--accent-glow);
+  }
+
+  .shine {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.12) 50%,
+      transparent 60%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+
+  .shine:hover::after {
+    transform: translateX(100%);
+  }
+
+  .gradient-border {
+    position: relative;
+    background: var(--surface-solid);
+    border-radius: 1rem;
+  }
+
+  .gradient-border::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      var(--accent),
+      transparent 40%,
+      transparent 60%,
+      #a855f7
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+  }
+
+  .gradient-border:hover::before {
+    opacity: 1;
+  }
+
+  @keyframes bulb-swing {
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+    20% {
+      transform: rotate(8deg);
+    }
+    40% {
+      transform: rotate(-6deg);
+    }
+    60% {
+      transform: rotate(4deg);
+    }
+    80% {
+      transform: rotate(-2deg);
+    }
+  }
+
+  .bulb-swing {
+    animation: bulb-swing 0.8s ease-in-out;
+    transform-origin: top center;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .float-delay-0 { animation-delay: 0s; }
+  .float-delay-1 { animation-delay: 0.4s; }
+  .float-delay-2 { animation-delay: 0.8s; }
+  .float-delay-3 { animation-delay: 1.2s; }
+
+  @keyframes orbit {
+    from {
+      transform: rotate(0deg) translateX(var(--orbit-radius)) rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}

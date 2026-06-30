@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danniela Adizas - Cyber Portfolio</title>
+    <style>
+        :root {
+            --neon-blue: rgb(0, 195, 255);
+            --neon-pink: rgb(255, 0, 170);
+            --bg-dark: #151718;
+            --card-bg: rgba(32, 34, 37, 0.95);
+            --glow-spread: 15px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: var(--bg-dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            perspective: 1000px;
+            padding: 2rem;
+        }
+
+        .container {
+            width: 1200px;
+            height: 800px;
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 2rem;
+            position: relative;
+            transform: rotateX(20deg);
+            box-shadow: 
+                0 0 var(--glow-spread) var(--neon-blue),
+                0 0 var(--glow-spread) var(--neon-pink),
+                inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 30px;
+            background: linear-gradient(45deg, 
+                var(--neon-pink) 0%, 
+                transparent 20%,
+                transparent 80%,
+                var(--neon-blue) 100%
+            );
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 2px solid var(--neon-blue);
+            position: relative;
+            margin: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 
+                0 0 var(--glow-spread) var(--neon-blue),
+                0 0 var(--glow-spread) var(--neon-pink);
+        }
+
+        .profile-image:hover {
+            transform: scale(1.1);
+        }
+
+        .color-control {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--neon-pink);
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            box-shadow: 0 0 15px var(--neon-pink);
+        }
+
+        .color-control:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 25px var(--neon-pink);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--card-dark);
+            padding: 2rem;
+            border-radius: 16px;
+            min-height: 180px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            box-shadow: 0px 0px 20px rgba(0, 234, 255, 0.4);
+            border-left: 4px solid var(--neon-blue);
+        }
+
+        .card:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 0px 30px rgba(0, 234, 255, 0.6);
+        }
+
+        .glowing-text {
+            font-size: 2rem;
+            text-shadow: 
+                0 0 10px var(--neon-blue),
+                0 0 20px var(--neon-pink);
+        }
+        .glow-button {
+            background: var(--card-bg);
+            border: none;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .glow-button::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue));
+            border-radius: 30px;
+            z-index: -1;
+        }
+
+        .glow-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 0 var(--glow-spread) var(--neon-blue),
+                0 0 var(--glow-spread) var(--neon-pink);
+        }
+        .pages {
+            display: flex;
+            gap: 1rem; /* Adjust spacing between items */
+            justify-content: flex-end;
+        }
+    </style>
+</head>
+<body> 
+    <div class="container">
+        <nav>
+            <div class="glowing-text">Portfolio</div>
+            <div class="pages">
+                
+                <p class="glow-button">Contact</p>
+            </div>
+    
+            
+        </nav>
+
+        <div class="main-content">
+            <div class="profile-section">
+                <h1 class="title">Danniela Adizas</h1>
+                <img src="profile.jpg" alt="Profile" class="profile-image">
+                <div class="color-control" onclick="toggleColor()"></div>
+            </div>
+        </div>
+
+        <div class="cards-grid">
+            <div class="card" onclick="alert('Penetration Testing Section Clicked!')">
+                <h3 class="glow-button">Skills</h3>
+                <p class="text-glow">Ethical hacking and vulnerability assessment</p>
+            </div>
+            <div class="card" onclick="window.location.href='project.html'">
+                <h3 class="glow-button" >Projects</h3>
+                <p class="text-glow">Cybersecurity risks and solutions</p>
+            </div>
+            <div class="card" onclick="alert('Security Projects Section Clicked!')">
+                <h3 class="glow-button">Certificates</h3>
+                <p class="text-glow">My work in securing systems</p>
+            </div>
+            <div class="card" onclick="alert('Contact Section Clicked!')">
+                <h3 class="glow-button">Contact</h3>
+                <p>Reach out for collaborations</p>
+            </div>
+        </div>
+        
+    </div>
+
+    <script>
+        function toggleColor() {
+            let root = document.documentElement;
+            let currentColor = getComputedStyle(root).getPropertyValue('--neon-pink');
+            let newColor = currentColor === 'rgb(255, 0, 127)' ? 'rgb(0, 234, 255)' : 'rgb(255, 0, 127)';
+            root.style.setProperty('--neon-pink', newColor);
+        }
+    </script>
+</body>
+</html>

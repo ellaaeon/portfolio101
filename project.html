@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Danniela Adizas</title>
+    <style>
+        :root {
+            --neon-blue: rgb(0, 195, 255);
+            --neon-pink: rgb(255, 0, 170);
+            --bg-dark: #151718;
+            --card-bg: rgba(32, 34, 37, 0.95);
+            --glow-spread: 15px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: var(--bg-dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            perspective: 1000px;
+            padding: 2rem;
+        }
+
+        .container {
+            width: 1200px;
+            height: 800px;
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 2rem;
+            position: relative;
+            transform: rotateX(20deg);
+            box-shadow: 
+                0 0 var(--glow-spread) var(--neon-blue),
+                0 0 var(--glow-spread) var(--neon-pink),
+                inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 30px;
+            background: linear-gradient(45deg, 
+                var(--neon-pink) 0%, 
+                transparent 20%,
+                transparent 80%,
+                var(--neon-blue) 100%
+            );
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .projects-container {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .project {
+            flex: 1;
+            min-width: 300px; /* Minimum width for each project */
+            max-width: 500px; /* Maximum width for each project */
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 234, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .gallery {
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            height: 300px; /* Adjusted height for side-by-side layout */
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .gallery img.active {
+            display: block;
+        }
+
+        .enlarged-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 10px;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+
+        .enlarged-container img {
+            max-width: 90vw;
+            max-height: 90vh;
+            display: block;
+        }
+
+        .nav-buttons {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .nav-buttons button {
+            background: var(--neon-pink);
+            border: none;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            z-index: 2;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--neon-pink);
+            border: none;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .project-description {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .pages {
+            display: flex;
+            gap: 1rem; /* Adjust spacing between items */
+            justify-content: flex-end;
+        }
+        .glow-button {
+            background: var(--card-bg);
+            border: none;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .glow-button::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue));
+            border-radius: 30px;
+            z-index: -1;
+        }
+
+        .glow-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 0 var(--glow-spread) var(--neon-blue),
+                0 0 var(--glow-spread) var(--neon-pink);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="pages">
+        <p class="glow-button" onclick="window.location.href='portfolio.html'">Home</p>
+        <p class="glow-button">Contact</p>
+        </div>
+        <h1>My Projects</h1>
+        
+        <div class="projects-container">
+            <div class="project">
+                <h2>Online Booking System</h2>
+                <div class="gallery" id="gallery1" onclick="openImage(event, 'gallery1')">
+                    <img src="Screenshot (9).png" class="active">
+                    <img src="Screenshot (10).png">
+                    <img src="Screenshot (11).png">
+                    <img src="Screenshot (12).png">
+                    <img src="Screenshot (14).png">
+                    <img src="Screenshot (15).png">
+                    <img src="Screenshot (16).png">
+                    <div class="nav-buttons">
+                        <button onclick="prevSlide('gallery1')">&#10094;</button>
+                        <button onclick="nextSlide('gallery1')">&#10095;</button>
+                    </div>
+                </div>
+                <p class="project-description">For our course project, I created an online hotel booking system using Dart and Flutter. The application allows users to browse available hotels and book a hotel room. I integrated Firebase as the database to store user information, hotel details, and booking records. FireAuth was implemented for secure authentication, ensuring that only registered users can access their accounts. The app features a user-friendly interface with smooth navigation. Users can sign up, log in, and manage their bookings efficiently. Real-time updates ensure that hotel availability is always accurate. I also incorporated error handling to improve the app’s reliability. The project helped me enhance my skills in Flutter, Firebase, and authentication systems.</p>
+            </div>
+
+            <div class="project">
+                <h2>Grading System</h2>
+                <div class="gallery" id="gallery2" onclick="showImage(event)">
+                    <img src="grading1.jpg" class="active">
+                    <img src="grading2.jpg">
+                    <img src="grading3.jpg">
+                    <div class="nav-buttons">
+                        <button onclick="prevSlide('gallery2')">&#10094;</button>
+                        <button onclick="nextSlide('gallery2')">&#10095;</button>
+                    </div>
+                </div>
+                <p class="project-description">A Python-based system for managing student grades efficiently.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="enlarged-container" id="enlargedContainer">
+        <button class="close-btn" onclick="closeImage()">&times;</button>
+        <img id="enlargedImage">
+        <div class="nav-buttons">
+            <button onclick="prevEnlargedSlide()">&#10094;</button>
+            <button onclick="nextEnlargedSlide()">&#10095;</button>
+        </div>
+    </div>
+
+    <script>
+        let currentGallery = '';
+        let currentImageIndex = 0;
+
+        function openImage(event, galleryId) {
+            if (event.target.tagName === "IMG") {
+                currentGallery = galleryId;
+                let images = document.getElementById(galleryId).getElementsByTagName("img");
+                currentImageIndex = Array.from(images).indexOf(event.target);
+                document.getElementById("enlargedImage").src = event.target.src;
+                document.getElementById("enlargedContainer").style.display = "block";
+            }
+        }
+
+        function closeImage() {
+            document.getElementById("enlargedContainer").style.display = "none";
+        }
+
+        function nextEnlargedSlide() {
+            let images = document.getElementById(currentGallery).getElementsByTagName("img");
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            document.getElementById("enlargedImage").src = images[currentImageIndex].src;
+        }
+
+        function prevEnlargedSlide() {
+            let images = document.getElementById(currentGallery).getElementsByTagName("img");
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            document.getElementById("enlargedImage").src = images[currentImageIndex].src;
+        }
+
+        function nextSlide(galleryId) {
+            event.stopPropagation();
+            let gallery = document.getElementById(galleryId);
+            let images = gallery.getElementsByTagName("img");
+            let currentImage = gallery.querySelector(".active");
+            let currentIndex = Array.from(images).indexOf(currentImage);
+            currentImage.classList.remove("active");
+            let nextIndex = (currentIndex + 1) % images.length;
+            images[nextIndex].classList.add("active");
+        }
+
+        function prevSlide(galleryId) {
+            event.stopPropagation();
+            let gallery = document.getElementById(galleryId);
+            let images = gallery.getElementsByTagName("img");
+            let currentImage = gallery.querySelector(".active");
+            let currentIndex = Array.from(images).indexOf(currentImage);
+            currentImage.classList.remove("active");
+            let prevIndex = (currentIndex - 1 + images.length) % images.length;
+            images[prevIndex].classList.add("active");
+        }
+    </script>
+</body>
+</html>

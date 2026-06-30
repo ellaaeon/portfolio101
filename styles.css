@@ -1,0 +1,25 @@
+body {
+    font-family: Arial, sans-serif;
+    transition: background 0.3s, color 0.3s;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: #eee;
+}
+.hero {
+    text-align: center;
+    padding: 50px;
+}
+.projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+.project-card {
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
