@@ -29,7 +29,7 @@ const contactItems = [
   {
     icon: Github,
     label: "GitHub",
-    value: "github.com/villagonz",
+    value: "github.com/ellaaeon",
     href: siteConfig.github,
   },
 ];

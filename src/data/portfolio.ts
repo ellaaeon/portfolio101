@@ -6,7 +6,7 @@ export const siteConfig = {
   email: "adizasdanniela@gmail.com",
   phone: "+63 966 887 4229",
   location: "Barugo, Leyte, Philippines",
-  github: "https://github.com/villagonz",
+  github: "https://github.com/ellaaeon",
   linkedin: "https://linkedin.com/in/danniela-adizas",
   portfolio: "https://adizasportfolio.vercel.app",
 };
