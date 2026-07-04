@@ -44,6 +44,23 @@
     scroll-behavior: smooth;
   }
 
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
   body {
     background: var(--bg);
     color: var(--text);
@@ -137,6 +154,14 @@
 
   .gradient-border:hover::before {
     opacity: 1;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 40px var(--accent-glow);
+  }
+
+  .perspective-3d {
+    perspective: 1200px;
   }
 
   @keyframes bulb-swing {

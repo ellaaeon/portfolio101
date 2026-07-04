@@ -9,6 +9,7 @@ type RevealProps = {
   className?: string;
   delay?: number;
   direction?: "up" | "left" | "right" | "none";
+  cinematic?: boolean;
 };
 
 export default function Reveal({
@@ -16,15 +17,16 @@ export default function Reveal({
   className = "",
   delay = 0,
   direction = "up",
+  cinematic = true,
 }: RevealProps) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, margin: "-80px" });
   const reduced = useReducedMotion();
 
   const offsets = {
-    up: { y: 40, x: 0 },
-    left: { y: 0, x: -40 },
-    right: { y: 0, x: 40 },
+    up: { y: 48, x: 0 },
+    left: { y: 0, x: -48 },
+    right: { y: 0, x: 48 },
     none: { y: 0, x: 0 },
   };
 
@@ -38,9 +40,32 @@ export default function Reveal({
     <motion.div
       ref={ref}
       className={className}
-      initial={{ opacity: 0, x: ox, y: oy }}
-      animate={inView ? { opacity: 1, x: 0, y: 0 } : {}}
-      transition={{ duration: 0.7, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
+      initial={{
+        opacity: 0,
+        x: ox,
+        y: oy,
+        scale: cinematic ? 0.94 : 1,
+        rotateX: cinematic ? 6 : 0,
+        filter: cinematic ? "blur(10px)" : "blur(0px)",
+      }}
+      animate={
+        inView
+          ? {
+              opacity: 1,
+              x: 0,
+              y: 0,
+              scale: 1,
+              rotateX: 0,
+              filter: "blur(0px)",
+            }
+          : {}
+      }
+      transition={{
+        duration: 0.85,
+        delay,
+        ease: [0.21, 0.47, 0.32, 0.98],
+      }}
+      style={{ transformPerspective: 1200 }}
     >
       {children}
     </motion.div>
@@ -95,12 +120,71 @@ export function LineReveal({ text, className = "" }: LineRevealProps) {
     <span ref={ref} className={`inline-block overflow-hidden ${className}`}>
       <motion.span
         className="inline-block"
-        initial={{ y: "100%" }}
-        animate={inView ? { y: 0 } : {}}
-        transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
+        initial={{ y: "110%", rotateX: 40 }}
+        animate={inView ? { y: 0, rotateX: 0 } : {}}
+        transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
+        style={{ transformOrigin: "bottom center" }}
       >
         {text}
       </motion.span>
     </span>
+  );
+}
+
+type CharRevealProps = {
+  text: string;
+  className?: string;
+  delay?: number;
+};
+
+export function CharReveal({ text, className = "", delay = 0 }: CharRevealProps) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const reduced = useReducedMotion();
+
+  if (reduced) {
+    return <span className={className}>{text}</span>;
+  }
+
+  return (
+    <span ref={ref} className={className} aria-label={text}>
+      {text.split("").map((char, i) => (
+        <motion.span
+          key={`${char}-${i}`}
+          className="inline-block"
+          initial={{ opacity: 0, y: 50, rotateX: -80 }}
+          animate={inView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
+          transition={{
+            delay: delay + i * 0.035,
+            duration: 0.55,
+            ease: [0.21, 0.47, 0.32, 0.98],
+          }}
+          style={{ transformOrigin: "bottom center" }}
+          aria-hidden
+        >
+          {char === " " ? "\u00A0" : char}
+        </motion.span>
+      ))}
+    </span>
+  );
+}
+
+type GradientUnderlineProps = {
+  className?: string;
+};
+
+export function GradientUnderline({ className = "" }: GradientUnderlineProps) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+
+  return (
+    <motion.span
+      ref={ref}
+      className={`block h-1 rounded-full bg-gradient-to-r from-[var(--accent)] via-violet-400 to-purple-500 ${className}`}
+      initial={{ scaleX: 0, opacity: 0 }}
+      animate={inView ? { scaleX: 1, opacity: 1 } : {}}
+      transition={{ delay: 0.6, duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
+      style={{ transformOrigin: "left center" }}
+    />
   );
 }

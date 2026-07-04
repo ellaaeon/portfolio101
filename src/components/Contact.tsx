@@ -2,10 +2,11 @@
 
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, MapPin, Phone, Github, Send } from "lucide-react";
+import { Mail, MapPin, Phone, Github, Send, Check } from "lucide-react";
 import { siteConfig } from "@/data/portfolio";
 import Reveal from "@/components/ui/Reveal";
-import Magnetic from "@/components/ui/Magnetic";
+import PremiumButton from "@/components/ui/PremiumButton";
+import { GlassInput, GlassTextarea } from "@/components/ui/GlassInput";
 
 const contactItems = [
   {
@@ -114,7 +115,7 @@ export default function Contact() {
               const inner = (
                 <Reveal delay={i * 0.05}>
                   <div className="group flex items-center gap-4 rounded-2xl glass p-5 transition-all hover:-translate-y-1 hover:glow-accent shine">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--accent)]/10 transition-transform group-hover:scale-110">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--accent)]/10 transition-transform group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-[var(--accent-glow)]">
                       <Icon className="text-[var(--accent)]" size={20} />
                     </div>
                     <div>
@@ -146,7 +147,7 @@ export default function Contact() {
             <form
               ref={formRef}
               onSubmit={handleSubmit}
-              className="relative overflow-hidden rounded-2xl glass p-8 glow-accent"
+              className="relative overflow-hidden rounded-2xl glass p-8 glow-accent backdrop-blur-2xl"
             >
               <motion.div
                 className="mb-6 flex items-center gap-3"
@@ -165,7 +166,7 @@ export default function Contact() {
               </motion.div>
 
               <div className="space-y-4">
-                <input
+                <GlassInput
                   type="text"
                   placeholder="Your name"
                   required
@@ -173,9 +174,9 @@ export default function Contact() {
                   onChange={(e) =>
                     setForm((f) => ({ ...f, name: e.target.value }))
                   }
-                  className="w-full rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-3 text-sm outline-none transition-all focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-glow)]"
+                  aria-label="Your name"
                 />
-                <input
+                <GlassInput
                   type="email"
                   placeholder="Your email"
                   required
@@ -183,9 +184,9 @@ export default function Contact() {
                   onChange={(e) =>
                     setForm((f) => ({ ...f, email: e.target.value }))
                   }
-                  className="w-full rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-3 text-sm outline-none transition-all focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-glow)]"
+                  aria-label="Your email"
                 />
-                <textarea
+                <GlassTextarea
                   placeholder="Your message"
                   required
                   rows={4}
@@ -193,23 +194,43 @@ export default function Contact() {
                   onChange={(e) =>
                     setForm((f) => ({ ...f, message: e.target.value }))
                   }
-                  className="w-full resize-none rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-3 text-sm outline-none transition-all focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-glow)]"
+                  aria-label="Your message"
                 />
               </div>
 
-              <div className="relative mt-6 flex justify-end">
-                <Magnetic>
-                  <button
-                    type="submit"
-                    disabled={sending}
-                    className="relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-[var(--accent)] px-6 py-3 text-sm font-medium text-white transition-all hover:shadow-lg hover:shadow-[var(--accent-glow)] disabled:opacity-60"
-                    data-cursor="button"
-                    data-cursor-text="Send"
-                  >
+              <div className="relative mt-6 flex items-center justify-end gap-4">
+                <AnimatePresence>
+                  {sent && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="flex items-center gap-2 text-sm text-green-400"
+                    >
+                      <Check size={18} />
+                      Message sent!
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <PremiumButton
+                  type="submit"
+                  disabled={sending || sent}
+                  cursorText="Send"
+                >
+                  {sending ? (
+                    <motion.span
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      className="inline-block"
+                    >
+                      <Send size={16} />
+                    </motion.span>
+                  ) : (
                     <Send size={16} />
-                    {sending ? "Sending..." : "Send Message"}
-                  </button>
-                </Magnetic>
+                  )}
+                  {sending ? "Sending..." : sent ? "Sent!" : "Send Message"}
+                </PremiumButton>
 
                 <AnimatePresence>
                   {planeFlying && (
